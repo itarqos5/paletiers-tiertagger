@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.paletiers.tiertagger.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "paletiers-refmap.json",
+  "client": [
+    "PlayerNametagMixin",
+    "EntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

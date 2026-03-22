@@ -1,6 +1,7 @@
-# CTL TierTagger
+# PaleTiers
 
-A Minecraft Fabric mod that displays player PvP tiers from [Central TierList](https://ctltierlist.vercel.app) directly in their nametags.
+A Minecraft Fabric mod that displays player PvP tiers from [PaleTiers](https://paletiers.xyz) directly in their
+nametags.
 
 ## Features
 
@@ -30,7 +31,7 @@ A Minecraft Fabric mod that displays player PvP tiers from [Central TierList](ht
 
 ## Configuration
 
-The mod creates a config file at `.minecraft/config/ctl-tiertagger.json`:
+The mod creates a config file at `.minecraft/config/paletiers.json`:
 
 ```json
 {
@@ -60,7 +61,7 @@ The mod creates a config file at `.minecraft/config/ctl-tiertagger.json`:
 
 ## API Integration
 
-This mod integrates with the Central TierList API at `https://ctltierlist-api-b2s8.vercel.app` to fetch real-time player rankings.
+This mod integrates with the PaleTiers API at `https://paletiers.xyz/api/tiers/{player_name}`.
 
 ## Building from Source
 
@@ -76,13 +77,14 @@ MIT License - See [LICENSE](LICENSE) file for details.
 
 ## Credits
 
-- CTL TierList Team
+- PaleTiers Team
 - [Tiers mod](https://github.com/Flavio6561/Tiers) - Gamemode texture icons
 - [TierTagger](https://github.com/mctiers-dev/TierTagger) - Search UI functionality
+- [Central Tierlist](https://github.com/XreatLabz/ctl-tiertagger/) - Fork of CTL's tiertagger****
 - Fabric API
 - All contributors
 
 ## Links
 
-- [Central TierList Website](https://ctltierlist.vercel.app)
+- [PaleTiers Website](https://paletiers.xyz)
 - [Discord](https://discord.gg/1-21-central-tierlist-1207931735485186130)

@@ -19,7 +19,7 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"ctl-tiertagger" {
+		"paletiers" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -27,7 +27,7 @@ loom {
 	
 	// Generate refmaps for mixins
 	mixin {
-		defaultRefmapName = "ctl-tiertagger-refmap.json"
+		defaultRefmapName = "paletiers-refmap.json"
 	}
 }
 

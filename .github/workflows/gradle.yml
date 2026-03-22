@@ -32,5 +32,5 @@ jobs:
     - name: Upload built jar
       uses: actions/upload-artifact@v4
       with:
-        name: ctl-tiertagger
+        name: paletiers
         path: build/libs/*.jar

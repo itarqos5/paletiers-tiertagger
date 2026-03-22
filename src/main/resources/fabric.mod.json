@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "ctl-tiertagger",
+  "id": "paletiers",
   "version": "${version}",
-  "name": "CTL TierTagger",
-  "description": "Displays player PvP tiers from Central TierList directly in their nametags",
+  "name": "PaleTiers",
+  "description": "Displays player PvP tiers from PaleTiers directly in their nametags",
   "authors": [
-    "CTL Team"
+    "itarqos5"
   ],
   "contact": {
-    "homepage": "https://ctltierlist.vercel.app",
-    "sources": "https://github.com/ctltierlist/tiertagger"
+    "homepage": "https://paletiers.xyz",
+    "sources": "https://paletiers.xyz"
   },
   "license": "MIT",
-  "icon": "assets/ctl-tiertagger/icon.png",
+  "icon": "assets/paletiers/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.ctltierlist.tiertagger.CTLTierTaggerClient"
+      "com.paletiers.tiertagger.PaleTiersClient"
     ],
     "modmenu": [
-      "com.ctltierlist.tiertagger.client.ModMenuIntegration"
+      "com.paletiers.tiertagger.client.ModMenuIntegration"
     ]
   },
   "mixins": [
-    "ctl-tiertagger.mixins.json"
+    "paletiers.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.0",

@@ -1,11 +1,11 @@
 # Changelog
 
-All notable changes to CTL TierTagger will be documented in this file.
+All notable changes to PaleTiers will be documented in this file.
 
 ## [1.0.0] - 2025-10-20
 
 ### Added
-- Initial release of CTL TierTagger
+- Initial release of PaleTiers
 - HUD-style tier display above player nametags (similar to Tiers mod)
 - Real PNG texture icons for gamemodes (copied from Tiers mod)
 - Custom Minecraft font system for icon rendering
@@ -53,7 +53,7 @@ All notable changes to CTL TierTagger will be documented in this file.
 - Includes 31 KB of gamemode icon textures
 
 ### API Integration
-- Connects to Central TierList API: https://ctltierlist-api-b2s8.vercel.app
+- Connects to PaleTiers API: https://paletiers.xyz/api/tiers/{player_name}
 - Fetches player data asynchronously
 - Caches responses to reduce API load
 - Handles API errors gracefully
@@ -61,7 +61,7 @@ All notable changes to CTL TierTagger will be documented in this file.
 ### Credits
 - Gamemode icon textures: Tiers mod by Flavio6561 (GPL-3.0)
 - Original HUD concept: Tiers mod
-- API: Central TierList
+- API: PaleTiers
 
 ### Known Issues
 - None reported yet
@@ -85,7 +85,4 @@ This project follows [Semantic Versioning](https://semver.org/):
 
 ## Links
 
-- [GitHub Repository](https://github.com/ctltierlist/tiertagger)
-- [Modrinth Page](https://modrinth.com/mod/ctl-tiertagger)
-- [Central TierList](https://ctltierlist.vercel.app)
-- [API Documentation](https://ctltierlist-api-b2s8.vercel.app)
+- [PaleTiers](https://paletiers.xyz)
