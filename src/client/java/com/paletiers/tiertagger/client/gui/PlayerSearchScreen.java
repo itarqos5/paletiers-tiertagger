@@ -67,7 +67,7 @@ public class PlayerSearchScreen extends Screen {
         }
 
         CompletableFuture<PlayerSkinWidget> skinWidgetFuture = SkinLoader.loadSkinAndCreateWidget(playerName, this.client);
-        CompletableFuture<PaleTiersApi.PaleTiersData> dataFuture = TierCache.fetchNow(playerName);
+        CompletableFuture<PaleTiersApi.PaleTiersData> dataFuture = TierCache.fetchNow(playerName, true);
 
         CompletableFuture.allOf(dataFuture, skinWidgetFuture).thenRun(() -> {
             PaleTiersApi.PaleTiersData data = dataFuture.join();
@@ -75,7 +75,7 @@ public class PlayerSearchScreen extends Screen {
             this.client.execute(() -> {
                 this.isSearching = false;
                 this.searchButton.active = true;
-                if (data != null && skinWidget != null) {
+                if (data != null) {
                     this.client.setScreen(new PlayerInfoScreen(this, data, skinWidget));
                 } else {
                     this.errorMessage = "Player not found: " + playerName;

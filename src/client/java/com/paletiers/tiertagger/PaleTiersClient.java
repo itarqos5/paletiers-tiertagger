@@ -66,15 +66,14 @@ public class PaleTiersClient implements ClientModInitializer {
 
     private static String getGamemodeIcon(String gamemode) {
         return switch (gamemode.toLowerCase()) {
-            case "sword" -> "\uE801";
-            case "crystal" -> "\uE800";
-            case "netherite" -> "\uE803";
-            case "potion" -> "\uE802";
-            case "mace" -> "\uE807";
-            case "uhc" -> "\uE804";
-            case "axe" -> "\uE805";
-            case "smp" -> "\uE806";
-            case "diasmp" -> "\uE808";
+            case "sword" -> "[SWD]";
+            case "crystal" -> "[CRY]";
+            case "netherite" -> "[NETH]";
+            case "potion" -> "[POT]";
+            case "mace" -> "[MACE]";
+            case "uhc" -> "[UHC]";
+            case "axe" -> "[AXE]";
+            case "smp", "diasmp" -> "[SMP]";
             default -> "";
         };
     }

@@ -36,6 +36,10 @@ public final class TierCache {
     }
 
     public static CompletableFuture<PaleTiersApi.PaleTiersData> fetchNow(String playerName) {
+        return fetchNow(playerName, false);
+    }
+
+    public static CompletableFuture<PaleTiersApi.PaleTiersData> fetchNow(String playerName, boolean bypassFailureDelay) {
         if (playerName == null || playerName.isBlank()) {
             return CompletableFuture.completedFuture(null);
         }
@@ -45,7 +49,7 @@ public final class TierCache {
         if (cached != null && !cached.isExpired(ModConfig.getCacheTime())) {
             return CompletableFuture.completedFuture(cached);
         }
-        return fetchIfNeeded(playerName);
+        return fetchIfNeeded(playerName, bypassFailureDelay);
     }
 
     public static int getCacheSize() {
@@ -53,10 +57,14 @@ public final class TierCache {
     }
 
     private static CompletableFuture<PaleTiersApi.PaleTiersData> fetchIfNeeded(String playerName) {
+        return fetchIfNeeded(playerName, false);
+    }
+
+    private static CompletableFuture<PaleTiersApi.PaleTiersData> fetchIfNeeded(String playerName, boolean bypassFailureDelay) {
         String key = playerName.toLowerCase();
         long now = System.currentTimeMillis();
         Long retryAt = FAILED_UNTIL.get(key);
-        if (retryAt != null && now < retryAt) {
+        if (!bypassFailureDelay && retryAt != null && now < retryAt) {
             return CompletableFuture.completedFuture(null);
         }
 
