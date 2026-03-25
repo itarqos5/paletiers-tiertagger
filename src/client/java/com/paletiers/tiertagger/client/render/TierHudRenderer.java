@@ -3,6 +3,7 @@ package com.paletiers.tiertagger.client.render;
 import com.paletiers.tiertagger.api.PaleTiersApi;
 import com.paletiers.tiertagger.cache.TierCache;
 import com.paletiers.tiertagger.config.ModConfig;
+import com.paletiers.tiertagger.util.PlayerNameUtil;
 import com.paletiers.tiertagger.version.compat.CompatBridgeFactory;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -18,7 +19,8 @@ public final class TierHudRenderer {
     private TierHudRenderer() {}
 
     public static void renderTierAboveNametag(PlayerEntity player, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        renderTierAboveNametag(player, player != null ? player.getName().getString() : null, matrices, vertexConsumers, light);
+        String profileName = player != null && player.getGameProfile() != null ? player.getGameProfile().getName() : null;
+        renderTierAboveNametag(player, profileName, matrices, vertexConsumers, light);
     }
 
     public static void renderTierAboveNametag(String playerName, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
@@ -26,18 +28,20 @@ public final class TierHudRenderer {
     }
 
     private static void renderTierAboveNametag(PlayerEntity player, String playerName, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        if (playerName == null || playerName.isBlank() || !ModConfig.isEnabled()) {
+        String normalizedName = PlayerNameUtil.normalizeForLookup(playerName);
+        if (normalizedName == null || normalizedName.isBlank() || !ModConfig.isEnabled()) {
             return;
         }
 
         if (player != null && player == client.player) {
             return;
         }
-        if (player == null && client.player != null && playerName.equals(client.player.getName().getString())) {
+        if (player == null && client.player != null && client.player.getGameProfile() != null
+            && normalizedName.equalsIgnoreCase(client.player.getGameProfile().getName())) {
             return;
         }
 
-        PaleTiersApi.PaleTiersData tierData = TierCache.getTierData(playerName);
+        PaleTiersApi.PaleTiersData tierData = TierCache.getTierData(normalizedName);
         if (tierData == null) {
             return;
         }

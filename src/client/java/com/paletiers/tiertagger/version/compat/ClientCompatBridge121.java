@@ -1,5 +1,6 @@
 package com.paletiers.tiertagger.version.compat;
 
+import com.mojang.authlib.GameProfile;
 import com.paletiers.tiertagger.version.MinecraftVersion;
 import com.paletiers.tiertagger.version.VersionSupport;
 import net.minecraft.client.MinecraftClient;
@@ -60,6 +61,11 @@ public class ClientCompatBridge121 implements ClientCompatBridge {
 
     @Override
     public String resolvePlayerName(Object renderLabelContext) {
+        String profileName = resolveNameFromProfile(renderLabelContext);
+        if (profileName != null && !profileName.isBlank()) {
+            return profileName;
+        }
+
         try {
             Field nameField = renderLabelContext.getClass().getField("name");
             Object nameValue = nameField.get(renderLabelContext);
@@ -77,6 +83,46 @@ public class ClientCompatBridge121 implements ClientCompatBridge {
                 if (!extracted.isBlank()) {
                     return extracted;
                 }
+            }
+        } catch (Exception ignored) {
+        }
+
+        return null;
+    }
+
+    private String resolveNameFromProfile(Object renderLabelContext) {
+        try {
+            Method method = renderLabelContext.getClass().getMethod("gameProfile");
+            Object value = method.invoke(renderLabelContext);
+            if (value instanceof GameProfile profile && profile.getName() != null && !profile.getName().isBlank()) {
+                return profile.getName();
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            Method method = renderLabelContext.getClass().getMethod("getGameProfile");
+            Object value = method.invoke(renderLabelContext);
+            if (value instanceof GameProfile profile && profile.getName() != null && !profile.getName().isBlank()) {
+                return profile.getName();
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            Field field = renderLabelContext.getClass().getField("gameProfile");
+            Object value = field.get(renderLabelContext);
+            if (value instanceof GameProfile profile && profile.getName() != null && !profile.getName().isBlank()) {
+                return profile.getName();
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            Field field = renderLabelContext.getClass().getField("profile");
+            Object value = field.get(renderLabelContext);
+            if (value instanceof GameProfile profile && profile.getName() != null && !profile.getName().isBlank()) {
+                return profile.getName();
             }
         } catch (Exception ignored) {
         }

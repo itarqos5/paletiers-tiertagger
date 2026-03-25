@@ -3,6 +3,7 @@ package com.paletiers.tiertagger.cache;
 import com.paletiers.tiertagger.PaleTiers;
 import com.paletiers.tiertagger.api.PaleTiersApi;
 import com.paletiers.tiertagger.config.ModConfig;
+import com.paletiers.tiertagger.util.PlayerNameUtil;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -23,14 +24,15 @@ public final class TierCache {
     }
 
     public static PaleTiersApi.PaleTiersData getTierData(String playerName) {
-        if (playerName == null || playerName.isBlank()) {
+        String normalizedName = PlayerNameUtil.normalizeForLookup(playerName);
+        if (normalizedName == null || normalizedName.isBlank()) {
             return null;
         }
 
-        String key = playerName.toLowerCase();
+        String key = normalizedName.toLowerCase();
         PaleTiersApi.PaleTiersData cached = PLAYER_CACHE.get(key);
         if (cached == null || cached.isExpired(ModConfig.getCacheTime())) {
-            fetchIfNeeded(playerName);
+            fetchIfNeeded(normalizedName);
         }
         return cached;
     }
@@ -40,16 +42,18 @@ public final class TierCache {
     }
 
     public static CompletableFuture<PaleTiersApi.PaleTiersData> fetchNow(String playerName, boolean bypassFailureDelay) {
-        if (playerName == null || playerName.isBlank()) {
+        String normalizedName = PlayerNameUtil.normalizeForLookup(playerName);
+        if (normalizedName == null || normalizedName.isBlank()) {
             return CompletableFuture.completedFuture(null);
         }
 
-        String key = playerName.toLowerCase();
+        String key = normalizedName.toLowerCase();
         PaleTiersApi.PaleTiersData cached = PLAYER_CACHE.get(key);
         if (cached != null && !cached.isExpired(ModConfig.getCacheTime())) {
             return CompletableFuture.completedFuture(cached);
         }
-        return fetchIfNeeded(playerName, bypassFailureDelay);
+        return fetchIfNeeded(normalizedName, bypassFailureDelay)
+            .thenApply(result -> result != null ? result : PLAYER_CACHE.get(key));
     }
 
     public static int getCacheSize() {

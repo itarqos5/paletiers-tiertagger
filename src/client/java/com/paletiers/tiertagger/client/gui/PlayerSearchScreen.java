@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.PlayerSkinWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.toast.SystemToast;
 import net.minecraft.text.Text;
 
 import java.util.concurrent.CompletableFuture;
@@ -75,10 +76,11 @@ public class PlayerSearchScreen extends Screen {
             this.client.execute(() -> {
                 this.isSearching = false;
                 this.searchButton.active = true;
-                if (data != null) {
+                if (data != null && !data.getAllTiers().isEmpty()) {
                     this.client.setScreen(new PlayerInfoScreen(this, data, skinWidget));
                 } else {
-                    this.errorMessage = "Player not found: " + playerName;
+                    this.errorMessage = "Player not found in the PaleTiers API";
+                    showPlayerNotFoundToast(playerName);
                 }
             });
         }).exceptionally(throwable -> {
@@ -92,6 +94,18 @@ public class PlayerSearchScreen extends Screen {
             }
             return null;
         });
+    }
+
+    private void showPlayerNotFoundToast(String playerName) {
+        if (this.client == null) {
+            return;
+        }
+        SystemToast.show(
+            this.client.getToastManager(),
+            SystemToast.Type.PERIODIC_NOTIFICATION,
+            Text.literal("PaleTiers Search"),
+            Text.literal("Player not found in the PaleTiers API: " + playerName)
+        );
     }
 
     @Override

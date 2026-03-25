@@ -16,11 +16,13 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public final class PaleTiersApi {
     private static final String API_BASE_URL = "https://paletiers.xyz/api/tiers/";
+    private static final int MAX_ATTEMPTS = 3;
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
-        .connectTimeout(Duration.ofSeconds(10))
+        .connectTimeout(Duration.ofSeconds(20))
         .followRedirects(HttpClient.Redirect.NORMAL)
         .build();
 
@@ -32,20 +34,37 @@ public final class PaleTiersApi {
                 String encodedName = URLEncoder.encode(playerName, StandardCharsets.UTF_8)
                     .replace("+", "%20");
                 String url = API_BASE_URL + encodedName;
-                HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .timeout(Duration.ofSeconds(15))
-                    .GET()
-                    .build();
+                for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+                    HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .timeout(Duration.ofSeconds(30))
+                        .GET()
+                        .build();
 
-                HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-                if (response.statusCode() != 200) {
-                    PaleTiers.LOGGER.warn("Failed to fetch tier for {}: HTTP {}", playerName, response.statusCode());
-                    return null;
+                    try {
+                        HttpResponse<String> response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+                        if (response.statusCode() == 200) {
+                            JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
+                            return parsePlayerData(json, playerName);
+                        }
+
+                        PaleTiers.LOGGER.warn("Failed to fetch tier for {}: HTTP {} (attempt {}/{})",
+                            playerName, response.statusCode(), attempt, MAX_ATTEMPTS);
+                    } catch (Exception requestError) {
+                        PaleTiers.LOGGER.warn("Fetch attempt {}/{} failed for {}: {}",
+                            attempt, MAX_ATTEMPTS, playerName, requestError.getMessage());
+                    }
+
+                    if (attempt < MAX_ATTEMPTS) {
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(400L * attempt);
+                        } catch (InterruptedException interrupted) {
+                            Thread.currentThread().interrupt();
+                            return null;
+                        }
+                    }
                 }
-
-                JsonObject json = JsonParser.parseString(response.body()).getAsJsonObject();
-                return parsePlayerData(json, playerName);
+                return null;
             } catch (Exception e) {
                 PaleTiers.LOGGER.error("Error fetching tier for {}: {}", playerName, e.getMessage());
                 return null;

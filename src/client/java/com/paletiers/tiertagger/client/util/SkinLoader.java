@@ -179,7 +179,7 @@ public class SkinLoader {
                 PaleTiers.LOGGER.info("Created PlayerSkinWidget for {} using mineskin.eu", playerName);
                 return widget;
             } catch (Exception e) {
-                PaleTiers.LOGGER.error("Error creating skin widget for {}: {}", playerName, e.getMessage());
+                PaleTiers.LOGGER.warn("Skin widget unavailable for {}: {}", playerName, e.getMessage());
                 return null;
             }
         });
