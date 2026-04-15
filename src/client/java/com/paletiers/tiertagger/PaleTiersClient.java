@@ -70,6 +70,8 @@ public class PaleTiersClient implements ClientModInitializer {
             case "crystal" -> "[CRY]";
             case "netherite" -> "[NETH]";
             case "potion" -> "[POT]";
+            case "ht cart", "htcart", "ht_cart", "ht-cart" -> "[HT Cart]";
+            case "diapot", "dia pot", "dia_pot", "dia-pot" -> "[Diapot]";
             case "mace" -> "[MACE]";
             case "uhc" -> "[UHC]";
             case "axe" -> "[AXE]";

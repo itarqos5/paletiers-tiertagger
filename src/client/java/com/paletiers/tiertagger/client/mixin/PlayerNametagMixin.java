@@ -82,6 +82,8 @@ public abstract class PlayerNametagMixin {
             case "cpvp", "crystal" -> "[CRY]";
             case "netherite", "nethpot" -> "[NETH]";
             case "pot", "potion" -> "[POT]";
+            case "ht cart", "htcart", "ht_cart", "ht-cart" -> "[HT Cart]";
+            case "diapot", "dia pot", "dia_pot", "dia-pot" -> "[Diapot]";
             case "mace", "macepvp" -> "[MACE]";
             case "uhc" -> "[UHC]";
             case "axe", "axepvp" -> "[AXE]";

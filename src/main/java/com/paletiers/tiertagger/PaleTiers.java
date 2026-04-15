@@ -24,7 +24,7 @@ public final class PaleTiers {
     private static final Set<String> BLACKLISTED_GAMEMODES = new LinkedHashSet<>();
 
     static {
-        registerAvailableGamemodes(Set.of("Sword", "Crystal", "Netherite", "Potion", "Mace", "UHC", "Axe", "SMP", "DiaSMP"));
+        registerAvailableGamemodes(Set.of("Sword", "Crystal", "Netherite", "Potion", "HT Cart", "Diapot", "Mace", "UHC", "Axe", "SMP", "DiaSMP"));
 
         // Disabled gamemodes in settings UI.
         // To enable one later, change its value from `true` to `false`.

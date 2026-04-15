@@ -12,6 +12,8 @@ public final class GamemodeUtil {
             case "crystal", "cpvp" -> "Crystal";
             case "netherite", "nethpot", "neth_pot", "neth-pot", "neth pot" -> "Netherite";
             case "pot", "potion" -> "Potion";
+            case "ht cart", "htcart", "ht_cart", "ht-cart" -> "HT Cart";
+            case "diapot", "dia pot", "dia_pot", "dia-pot" -> "Diapot";
             case "mace", "macepvp" -> "Mace";
             case "uhc" -> "UHC";
             case "axe", "axepvp" -> "Axe";
